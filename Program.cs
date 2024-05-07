@@ -20,6 +20,9 @@
                 case "2":
                     VideogameManager.SearchGameId();
                     break;
+                case "3":
+                    VideogameManager.SearchGameName();
+                    break;
                 case "5":
                     break; 
             }

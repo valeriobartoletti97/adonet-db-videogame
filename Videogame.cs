@@ -106,5 +106,42 @@ namespace adonet_db_videogame
                 }
             }
         }
+
+        public static void SearchGameName()
+        {
+            using (SqlConnection connectionSql = new SqlConnection(CONNECTION_STRING))
+            {
+                try
+                {
+                    connectionSql.Open();
+                    Console.Write("Inserisci il nome del gioco che stai cercando:");
+                    string dataString = Console.ReadLine();
+                    string query = $"SELECT name, id FROM videogames WHERE name LIKE @Data";
+                    using (SqlCommand cmd = new SqlCommand(query, connectionSql))
+                    {
+                        cmd.Parameters.Add(new SqlParameter("@Data","%" + dataString + "%"));
+                        using( SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                while (reader.Read())
+                                {
+                                    Console.WriteLine("Nome: " + reader.GetString(0));
+                                    Console.WriteLine("Id: " + reader.GetInt64(1));
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Error");
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+            }
+        }
     }
 }
