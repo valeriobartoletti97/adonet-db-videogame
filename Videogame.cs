@@ -66,6 +66,7 @@ namespace adonet_db_videogame
                     cmd.Parameters.Add(new SqlParameter("@softwarehouseid", softwareHouseId));
 
                     int affectedRows = cmd.ExecuteNonQuery();
+                    Console.WriteLine($"Il videogame {name} è stato aggiunto!");
                 }
                 catch (Exception e)
                 {
@@ -134,6 +135,37 @@ namespace adonet_db_videogame
                             {
                                 Console.WriteLine("Error");
                             }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+            }
+        }
+
+        public static void DeleteGameById()
+        {
+            using (SqlConnection connectionSql = new SqlConnection(CONNECTION_STRING))
+            {
+                try
+                {
+                    connectionSql.Open();
+                    Console.Write("Inserisci l'Id del gioco che vuoi eliminare:");
+                    string dataId = Console.ReadLine();
+                    string query = $"DELETE FROM videogames where id = @Id";
+                    using (SqlCommand cmd = new SqlCommand(query, connectionSql))
+                    {
+                        cmd.Parameters.Add(new SqlParameter("@Id", dataId));
+                        int affectedRows = cmd.ExecuteNonQuery();
+                        if (affectedRows > 0)
+                        {
+                            Console.WriteLine($"Il gioco con id uguale a {dataId} è stato eliminato");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Si è verificato un errore");
                         }
                     }
                 }
