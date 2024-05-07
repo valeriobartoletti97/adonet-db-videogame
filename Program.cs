@@ -17,6 +17,9 @@
                 case "1":
                     VideogameManager.InsertVideogame();
                     break;
+                case "2":
+                    VideogameManager.SearchGameId();
+                    break;
                 case "5":
                     break; 
             }

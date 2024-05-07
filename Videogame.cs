@@ -73,5 +73,38 @@ namespace adonet_db_videogame
                 }
             }
         }
+        public static void SearchGameId()
+        {
+            using (SqlConnection connectionSql = new SqlConnection(CONNECTION_STRING))
+            {
+                try
+                {
+                    connectionSql.Open();
+                    Console.Write("Inserisci l'id del gioco che stai cercando:");
+                    string searchId = Console.ReadLine();
+                    string query = "SELECT name, release_date FROM videogames WHERE id = @Id";
+                    using (SqlCommand cmd = new SqlCommand(query, connectionSql))
+                    {
+                        cmd.Parameters.Add(new SqlParameter("@Id", searchId));
+                        using(SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                string dataName= reader.GetString(0);
+                                Console.WriteLine($"Il nome del gioco è : {dataName}");
+                            }
+                            else
+                            {
+                                Console.WriteLine("L'id del gioco che cerchi non è presente nel database.");
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+            }
+        }
     }
 }
